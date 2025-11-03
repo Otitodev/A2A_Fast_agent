@@ -21,6 +21,9 @@ env:
     value: "false"
   - name: PORT
     value: "8000"
+  - name: WORKERS
+    value: "1"
+    description: "Number of uvicorn workers"
 
 # Health check configuration
 health_check:

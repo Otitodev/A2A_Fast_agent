@@ -23,6 +23,9 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copy the entire application code
 COPY . /app
 
+# Verify the application can be imported
+RUN python -c "import app.main; print('✅ Application imports successfully')"
+
 # Create a non-root user for security
 RUN adduser --disabled-password --gecos '' --uid 1000 appuser && \
     chown -R appuser:appuser /app
@@ -36,14 +39,11 @@ HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
     CMD curl -f http://localhost:8000/health || exit 1
 
 # Command to run the application
-# Use PORT environment variable for cloud platforms like Leapcell
-CMD gunicorn app.main:app \
-    --bind 0.0.0.0:${PORT:-8000} \
-    --worker-class uvicorn.workers.UvicornWorker \
-    --workers ${WORKERS:-2} \
-    --timeout 120 \
-    --keep-alive 2 \
-    --max-requests 1000 \
-    --max-requests-jitter 100 \
-    --access-logfile - \
-    --error-logfile -
+# Use uvicorn directly for cloud platforms like Leapcell
+CMD uvicorn app.main:app \
+    --host 0.0.0.0 \
+    --port ${PORT:-8000} \
+    --workers ${WORKERS:-1} \
+    --log-level info \
+    --access-log \
+    --use-colors
