@@ -1,0 +1,46 @@
+name: telex-ai-agent
+description: "AI Code Reviewer Agent with A2A Protocol Support for Telex.im"
+
+# Leapcell deployment configuration
+runtime: docker
+dockerfile: Dockerfile
+
+# Environment variables (set these in Leapcell dashboard)
+env:
+  - name: MISTRAL_API_KEY
+    required: true
+    description: "Your Mistral AI API key"
+  - name: MISTRAL_MODEL
+    value: "mistral-small-latest"
+    description: "Mistral model to use"
+  - name: APP_NAME
+    value: "Telex AI Code Reviewer"
+  - name: LOG_LEVEL
+    value: "INFO"
+  - name: DEBUG
+    value: "false"
+  - name: PORT
+    value: "8000"
+
+# Health check configuration
+health_check:
+  path: "/health"
+  interval: 30
+  timeout: 10
+  retries: 3
+
+# Resource configuration
+resources:
+  cpu: 0.5
+  memory: 512Mi
+
+# Auto-scaling (optional)
+scaling:
+  min_replicas: 1
+  max_replicas: 3
+  target_cpu: 70
+
+# Networking
+networking:
+  port: 8000
+  protocol: http
