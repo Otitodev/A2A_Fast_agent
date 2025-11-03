@@ -1,8 +1,25 @@
+# Core FastAPI and ASGI server
 fastapi==0.111.0
 uvicorn[standard]==0.29.0
+
+# Data validation and settings
 pydantic==2.7.1
 pydantic-settings==2.2.1
+
+# Environment and configuration
 python-dotenv==1.0.1
+
+# AI/LLM integration
 mistralai==0.2.0
-jsonrpcserver==5.0.9
-redis==5.0.1
+
+# HTTP client for testing and health checks
+httpx==0.28.1
+
+# Additional utilities
+typing-extensions==4.15.0
+
+# Optional: For enhanced JSON handling (already included with FastAPI)
+# orjson==3.11.4
+
+# Optional: For future Redis caching support
+# redis==5.0.1
